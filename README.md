@@ -16,13 +16,13 @@ Die Build Tools können mit folgenden Parametern ausgeführt werden um z.B. eine
 
 | Parameter | Beschreibung | Beispiel |
 | --------- | ------------ | -------- |
-| --config \| -c | Gibt den Pfad zu einer alternativen `plugins.yml` Config an. | `--config data/plugins.yml` |
-| --output-dir \| -o | Gibt den Pfad an in den die Plugins geladen werden sollen. Default: `plugins/` | `--output-dir mods/` |
+| --config / -c | Gibt den Pfad zu einer alternativen `plugins.yml` Config an. | `--config data/plugins.yml` |
+| --output-dir / -o | Gibt den Pfad an in den die Plugins geladen werden sollen. Default: `plugins/` | `--output-dir mods/` |
 | --git-username | Gibt den Git Username für Repos mit Authentifizierung an. | `--git-username Silthus` |
 | --git-password | Gibt das Password oder den Auth Token für Git an. | `--git-password foobar` |
 | --file-username | Gibt einen User für BASIC Auth beim Download von Files an. | `--file-username Silthus` |
 | --file-password | Gibt ein Password für BASIC Auth beim Download von Files an. | `--file-password foorbar` |
-| --header \| -h | Fügt dem Download der `.jar` Dateien zusätzliche Header hinzu. Der Header wird beim `:` gesplitted. | `-h PRIVATE-TOKEN: foobar` |
+| --header / -h | Fügt dem Download der `.jar` Dateien zusätzliche Header hinzu. Der Header wird beim `:` gesplitted. | `-h PRIVATE-TOKEN: foobar` |
 
 ## Konfiguration
 
