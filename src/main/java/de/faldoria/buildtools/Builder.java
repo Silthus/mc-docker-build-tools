@@ -129,8 +129,8 @@ public class Builder
 
         if (options.has(headers)) {
             for (String header : options.valuesOf(headers)) {
-                String[] split = header.split("=");
-                Builder.headers.put(split[0], split.length > 1 ? split[1] : "");
+                String[] split = header.split(":");
+                Builder.headers.put(split[0].trim(), split.length > 1 ? split[1].trim() : "");
             }
         }
 
