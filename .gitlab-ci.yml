@@ -16,8 +16,12 @@ build:
     paths:
       - target/
 
-deploy-job:
+deploy:
   stage: deploy
+  script:
+    - mvn $MAVEN_CLI_OPTS deploy
+  only:
+    - master
   artifacts:
     paths:
       - "target/*.jar"
