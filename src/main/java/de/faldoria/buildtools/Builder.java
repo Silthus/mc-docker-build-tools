@@ -51,6 +51,8 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -221,10 +223,8 @@ public class Builder
 
         if (options.has(configs)) {
             String suffix = options.valueOf(configs);
-            try (Stream<Path> paths = java.nio.file.Files.walk(Paths.get(""))) {
-                paths.filter(java.nio.file.Files::isRegularFile)
-                        .filter(file -> file.getFileName().endsWith(suffix))
-                        .forEach(file -> updatePluginConfigs(file, options.valueOf(outputDir)));
+            try (DirectoryStream<Path> paths = Files.newDirectoryStream(Paths.get(""), "*" + suffix)) {
+                paths.forEach(path -> updatePluginConfigs(path.toFile(), options.valueOf(outputDir)));
             }
         } else {
             updatePluginConfigs(options.valueOf(config), options.valueOf(outputDir));
@@ -312,7 +312,7 @@ public class Builder
 
     private static boolean checkHash(File vanillaJar, VersionInfo versionInfo) throws IOException
     {
-        String hash = Files.hash( vanillaJar, Hashing.md5() ).toString();
+        String hash = com.google.common.io.Files.hash( vanillaJar, Hashing.md5() ).toString();
         if ( !dev && versionInfo.getMinecraftHash() != null && !hash.equals( versionInfo.getMinecraftHash() ) )
         {
             System.err.println( "**** Warning, Minecraft jar hash of " + hash + " does not match stored hash of " + versionInfo.getMinecraftHash() );
@@ -364,7 +364,7 @@ public class Builder
         for ( File file : files )
         {
             System.out.println( "Copying " + file.getName() + " to " + outJar.getAbsolutePath() );
-            Files.copy( file, outJar );
+            com.google.common.io.Files.copy( file, outJar );
             System.out.println( "  - Saved as " + outJar );
         }
     }
@@ -590,7 +590,7 @@ public class Builder
 
             System.out.println( "Downloaded file: " + target + " with md5: " + Hashing.md5().hashBytes( bytes ).toString() );
 
-            Files.write( bytes, target );
+            com.google.common.io.Files.write( bytes, target );
         } else {
             System.out.println("No file to download. Server replied HTTP code: " + responseCode);
         }
