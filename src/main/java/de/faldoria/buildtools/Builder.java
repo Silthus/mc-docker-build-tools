@@ -10,7 +10,6 @@ import com.google.common.collect.ObjectArrays;
 import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
-import com.google.common.io.Files;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -26,11 +25,35 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
-import javax.net.ssl.*;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -41,6 +64,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -105,6 +129,7 @@ public class Builder
         OptionParser parser = new OptionParser();
         OptionSpec<Void> disableCertFlag = parser.accepts( "disable-certificate-check" );
         OptionSpec<File> config = parser.acceptsAll(Arrays.asList("c", "config")).withRequiredArg().ofType(File.class).defaultsTo(CONFIG);
+        OptionSpec<String> configs = parser.accepts("configs").withOptionalArg().ofType(String.class);
         OptionSpec<File> outputDir = parser.acceptsAll( Arrays.asList( "o", "output-dir" ) ).withRequiredArg().ofType( File.class ).defaultsTo( CWD );
         OptionSpec<String> gitUsername = parser.accepts("git-username").withOptionalArg().ofType(String.class);
         OptionSpec<String> gitPassword = parser.accepts("git-password").withOptionalArg().ofType(String.class);
@@ -194,7 +219,16 @@ public class Builder
             runProcess( CWD, "git", "config", "--global", "user.email", "unconfigured@null.spigotmc.org" );
         }
 
-        updatePluginConfigs(options.valueOf(config), options.valueOf(outputDir));
+        if (options.has(configs)) {
+            String suffix = options.valueOf(configs);
+            try (Stream<Path> paths = java.nio.file.Files.walk(Paths.get(""))) {
+                paths.filter(java.nio.file.Files::isRegularFile)
+                        .filter(file -> file.getFileName().endsWith(suffix))
+                        .forEach(file -> updatePluginConfigs(file, options.valueOf(outputDir)));
+            }
+        } else {
+            updatePluginConfigs(options.valueOf(config), options.valueOf(outputDir));
+        }
     }
 
     private static void updatePluginConfigs(File configFile, File dir) {
