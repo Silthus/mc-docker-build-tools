@@ -11,7 +11,7 @@ cache:
 build:
   stage: build
   script:
-    - mvn clean install $MAVEN_CLI_OPTS
+    - mvn install $MAVEN_CLI_OPTS
   artifacts:
     paths:
       - "target/*.jar"
