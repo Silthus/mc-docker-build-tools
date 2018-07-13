@@ -197,6 +197,7 @@ public class Builder
                 System.out.println( "*** Please note that this is a beta feature, so if it does not work please also try a manual install of git from https://git-for-windows.github.io/ ***" );
             } else
             {
+                ex.printStackTrace();
                 System.out.println( "You must run this jar through bash (msysgit)" );
                 System.exit( 1 );
             }
