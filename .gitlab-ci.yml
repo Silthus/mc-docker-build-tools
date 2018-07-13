@@ -11,7 +11,13 @@ cache:
 build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS clean compile
+    - mvn clean compile $MAVEN_CLI_OPTS
   artifacts:
     paths:
-    - target/*.jar
+      - target/
+
+deploy-job:
+  stage: deploy
+  artifacts:
+    paths:
+      - "target/*.jar"
