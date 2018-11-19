@@ -75,16 +75,10 @@ public class Builder
 
     public static final String LOG_FILE = "ToF-BuildTools.log.txt";
     public static final boolean IS_WINDOWS = System.getProperty( "os.name" ).startsWith( "Windows" );
-    public static final File CWD = new File( "plugins" );
+    public static final File CWD = new File( "." );
     public static final File CONFIG = new File("plugins.yml");
     private static final boolean autocrlf = !"\n".equals( System.getProperty( "line.separator" ) );
-    private static boolean dontUpdate;
-    private static boolean skipCompile;
-    private static boolean generateSource;
-    private static boolean generateDocs;
-    private static boolean dev;
-    private static String applyPatchesShell = "sh";
-    //
+
     private static File msysDir;
     private static CredentialsProvider credentialsProvider = null;
     private static Map<String, String> headers = new HashMap<>();
@@ -312,20 +306,6 @@ public class Builder
         }
     }
 
-    private static boolean checkHash(File vanillaJar, VersionInfo versionInfo) throws IOException
-    {
-        String hash = com.google.common.io.Files.hash( vanillaJar, Hashing.md5() ).toString();
-        if ( !dev && versionInfo.getMinecraftHash() != null && !hash.equals( versionInfo.getMinecraftHash() ) )
-        {
-            System.err.println( "**** Warning, Minecraft jar hash of " + hash + " does not match stored hash of " + versionInfo.getMinecraftHash() );
-            return false;
-        } else
-        {
-            System.out.println( "Found good Minecraft hash (" + hash + ")" );
-            return true;
-        }
-    }
-
     public static final String get(String url) throws IOException
     {
         URLConnection con = new URL( url ).openConnection();
@@ -403,6 +383,12 @@ public class Builder
                             "cmd.exe", "/C"
                     };
             command = ObjectArrays.concat( shim, command, String.class );
+        }
+        if (!IS_WINDOWS && "sh".equals(command[0])) {
+            command[0] = "/bin/sh";
+        }
+        if (!IS_WINDOWS && "git".equals(command[0])) {
+            command[0] = "/usr/bin/git";
         }
         return runProcess0( workDir, command );
     }

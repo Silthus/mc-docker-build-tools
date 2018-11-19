@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="af86e79a-b894-4e12-be5a-4d65c64a16c4" name="Default" comment="print stack">
+    <list default="true" id="af86e79a-b894-4e12-be5a-4d65c64a16c4" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/de/faldoria/buildtools/Builder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/de/faldoria/buildtools/Builder.java" afterDir="false" />
     </list>
@@ -28,8 +28,8 @@
       <file leaf-file-name="Builder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/faldoria/buildtools/Builder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="508">
-              <caret line="413" column="52" selection-start-line="413" selection-start-column="52" selection-end-line="413" selection-end-column="52" />
+            <state relative-caret-position="831">
+              <caret line="405" column="42" selection-start-line="405" selection-start-column="42" selection-end-line="405" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -423,7 +423,21 @@
       <option name="project" value="LOCAL" />
       <updated>1542640797533</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="use path in cmd run">
+      <created>1542643971129</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1542643971129</updated>
+    </task>
+    <task id="LOCAL-00005" summary="print stacktrace">
+      <created>1542644477238</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1542644477238</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -473,7 +487,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ignore bash" />
     <MESSAGE value="fix(build): use java 8" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(build): use java 8" />
+    <MESSAGE value="use path in cmd run" />
+    <MESSAGE value="print stacktrace" />
+    <option name="LAST_COMMIT_MESSAGE" value="print stacktrace" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/20.0/guava-20.0.jar!/com/google/common/io/ByteSource.class">
@@ -937,8 +953,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/faldoria/buildtools/Builder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="413" column="52" selection-start-line="413" selection-start-column="52" selection-end-line="413" selection-end-column="52" />
+        <state relative-caret-position="831">
+          <caret line="405" column="42" selection-start-line="405" selection-start-column="42" selection-end-line="405" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
