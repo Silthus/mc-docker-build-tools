@@ -199,7 +199,7 @@ public class Builder
             {
                 System.err.println(ex.getMessage());
                 System.out.println( "You must run this jar through bash (msysgit)" );
-//                System.exit( 1 );
+                System.exit( 1 );
             }
         }
 
@@ -411,6 +411,7 @@ public class Builder
         ProcessBuilder pb = new ProcessBuilder( command );
         pb.directory( workDir );
         pb.environment().put( "JAVA_HOME", System.getProperty( "java.home" ) );
+        pb.environment().put( "PATH", System.getProperty("PATH"));
         if ( !pb.environment().containsKey( "MAVEN_OPTS" ) )
         {
             pb.environment().put( "MAVEN_OPTS", "-Xmx1024M" );
