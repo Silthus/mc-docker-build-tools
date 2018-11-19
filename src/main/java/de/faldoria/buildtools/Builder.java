@@ -199,7 +199,7 @@ public class Builder
             {
                 System.err.println(ex.getMessage());
                 System.out.println( "You must run this jar through bash (msysgit)" );
-                System.exit( 1 );
+//                System.exit( 1 );
             }
         }
 
