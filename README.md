@@ -23,6 +23,7 @@ Die Build Tools können mit folgenden Parametern ausgeführt werden um z.B. eine
 | --file-username | Gibt einen User für BASIC Auth beim Download von Files an. | `--file-username Silthus` |
 | --file-password | Gibt ein Password für BASIC Auth beim Download von Files an. | `--file-password foorbar` |
 | --header / -h | Fügt dem Download der `.jar` Dateien zusätzliche Header hinzu. Der Header wird beim `:` gesplitted. | `-h PRIVATE-TOKEN: foobar` |
+| --dir / -d | Der Ordner in dem die *.plugin.yml Dateien liegen. | `-d /foobar` |
 
 ## Konfiguration
 

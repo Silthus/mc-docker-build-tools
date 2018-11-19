@@ -126,6 +126,7 @@ public class Builder
         OptionSpec<Void> disableCertFlag = parser.accepts( "disable-certificate-check" );
         OptionSpec<File> config = parser.acceptsAll(Arrays.asList("c", "config")).withRequiredArg().ofType(File.class).defaultsTo(CONFIG);
         OptionSpec<String> configs = parser.accepts("configs").withOptionalArg().ofType(String.class);
+        OptionSpec<File> sourceDir = parser.acceptsAll( Arrays.asList( "d", "dir" ) ).withRequiredArg().ofType( File.class ).defaultsTo( CWD );
         OptionSpec<File> outputDir = parser.acceptsAll( Arrays.asList( "o", "output-dir" ) ).withRequiredArg().ofType( File.class ).defaultsTo( CWD );
         OptionSpec<String> gitUsername = parser.accepts("git-username").withOptionalArg().ofType(String.class);
         OptionSpec<String> gitPassword = parser.accepts("git-password").withOptionalArg().ofType(String.class);
@@ -219,7 +220,7 @@ public class Builder
 
         if (options.has(configs)) {
             String suffix = options.valueOf(configs);
-            try (DirectoryStream<Path> paths = Files.newDirectoryStream(Paths.get(""), "*" + suffix)) {
+            try (DirectoryStream<Path> paths = Files.newDirectoryStream(options.valueOf(sourceDir).toPath(), "*" + suffix)) {
                 paths.forEach(path -> updatePluginConfigs(path.toFile(), options.valueOf(outputDir)));
             }
         } else {
