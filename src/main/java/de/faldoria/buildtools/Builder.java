@@ -141,7 +141,7 @@ public class Builder
             disableHttpsCertificateCheck();
         }
 
-        if (options.has(gitPassword)) {
+        if (options.has(gitPassword) && options.has(gitUsername) && options.valueOf(gitUsername) != null && options.valueOf(gitPassword) != null) {
             credentialsProvider = new UsernamePasswordCredentialsProvider(options.valueOf(gitUsername), options.valueOf(gitPassword));
         }
 
