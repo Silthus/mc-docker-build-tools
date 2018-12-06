@@ -1,41 +1,45 @@
 # Tales of Faldoria Build Tools
 
-Mit den `Tales of Faldoria Build Tools` lässt sich der komplette Server Deployment Prozess durch simple Konfigurations Dateien automatisieren. Besonders mächtig werden die Build Tools im Zusammenspiel mit Docker Images.
+These `BuildTools` are mostly copied code from the [`Spigot BuildTools`](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/buildtools/). See the [license](LICENSE.md) for details.
+
+This project aims to fully automate the configuration and deployment of a full [Spigot](https://hub.spigotmc.org/) Minecraft server. It will download plugins and config of plugins based on a simple configuration file.
 
 ## Getting Started
 
-Die Build Tools werden wie ein Minecraft Server mit `java -jar` gestartet. Dabei wird Default die `plugins.yml` im aktuellen Verzeichnis eingelesen.
+Start the Build Tools via `java -jar <JAR-FILE>`. In the defaults it will try to read the `plugins.yml` from the current directory as base config.
 
 ```bash
 java -jar ToF-BuildTools.jar
 ```
 
-### Parameter
+### Parameters
 
-Die Build Tools können mit folgenden Parametern ausgeführt werden um z.B. eine Authenzifizierung im Git zu realisieren.
+The Build Tools take the following parameters.
 
 | Parameter | Beschreibung | Beispiel |
 | --------- | ------------ | -------- |
-| --config / -c | Gibt den Pfad zu einer alternativen `plugins.yml` Config an. | `--config data/plugins.yml` |
-| --output-dir / -o | Gibt den Pfad an in den die Plugins geladen werden sollen. Default: `plugins/` | `--output-dir mods/` |
-| --git-username | Gibt den Git Username für Repos mit Authentifizierung an. | `--git-username Silthus` |
-| --git-password | Gibt das Password oder den Auth Token für Git an. | `--git-password foobar` |
-| --file-username | Gibt einen User für BASIC Auth beim Download von Files an. | `--file-username Silthus` |
-| --file-password | Gibt ein Password für BASIC Auth beim Download von Files an. | `--file-password foorbar` |
-| --header / -h | Fügt dem Download der `.jar` Dateien zusätzliche Header hinzu. Der Header wird beim `:` gesplitted. | `-h PRIVATE-TOKEN: foobar` |
-| --dir / -d | Der Ordner in dem die *.plugin.yml Dateien liegen. | `-d /foobar` |
+| --config / -c | Specify an alternative path to the `plugins.yml` config. | `--config data/plugins.yml` |
+| --output-dir / -o | Specify the output directory into which plugins and configs are downloaded. Default: `plugins/` | `--output-dir mods/` |
+| --git-username | If using private git repositories you can specify the username. | `--git-username Silthus` |
+| --git-password | If using private git repositories you can specify a password or auth-token to download the configs. | `--git-password foobar` |
+| --file-username | Allows the specification for BASIC authentication when downloading files. | `--file-username Silthus` |
+| --file-password | Allows the specification for BASIC authentication when downloading files. | `--file-password foorbar` |
+| --header / -h | Adds additional headers when downloading files. The header will be split at `:`. | `-h PRIVATE-TOKEN: foobar` |
+| --configs     | Allows the specification of a suffix for config files. | `--configs .plugin.yml` will use all configs that end with `.plugin.yml` |
+| --dir / -d | Optional directory to load configs with the `--configs` suffix from. | `-d /foobar` |
 
-## Konfiguration
+## Configuration
 
-Fast alles der Build Tools wird in der `plugins.yml` konfiguriert. Der Pfad und Name der Datei kann mit dem `--config foobar.yml` Parameter geändert werden.
+Everything is configured in the `plugins.yml` or the respective configuration files. The path and name can be changed via the `--config foobar.yml` parameter.
 
-> Alle `.jar` Plugin Dateien werden jedesmal mit der aktuellsten Version überschrieben.
+> All `.jar` files that are downloaded will be overwriten everytime.
 
-In der Config Datei werden einfach alle benötigten Plugins mit dem Download Pfad zur `.jar` Datei und dem Ort der Konfiguration hinterlegt.
+In the config all plugins and their configs are specified by a download url and git repository or download url with a zip file of the config.
 
-> Plugin Configs von Git Repositories werden mit `git pull` aktualisiert und alle lokalen Änderungen verworfen. Also vorher am besten die Änderungen einchecken.
+> Plugin configs that are downloaded from git repositories will be updated using `git pull`. Remember to commit your changes before updating the configs.
 
 ```yml
+# Just non-working examples
 plugins:
   worldedit:
     fileName: WorldEdit.jar
@@ -48,4 +52,9 @@ plugins:
     configType: GIT
     branch: master
     configUrl: https://git.faldoria.de/plugin-configs/rcmobs.git
+  custom-path-jar:
+    # You can download the plugin into any sub directory you want
+    fileName: RaidCraft-API/custom-plugin.jar
+    fileUrl: https://foobar.faldoria.de/plugin.jar
+    # The config paramters are optional
 ```
