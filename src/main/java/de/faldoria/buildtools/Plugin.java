@@ -12,6 +12,7 @@ public class Plugin {
     private String fileUrl;
     private String configUrl;
     private String branch;
+    private boolean useToken = false;
     private ConfigType configType = ConfigType.EMPTY;
 
     public static enum ConfigType {

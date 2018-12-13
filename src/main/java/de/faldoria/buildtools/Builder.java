@@ -178,7 +178,7 @@ public class Builder
 
                     if ( !gitInstall.exists() )
                     {
-                        download( "https://static.spigotmc.org/git/" + gitName, gitInstall );
+                        download( "https://static.spigotmc.org/git/" + gitName, gitInstall, false);
                     }
 
                     System.out.println( "Extracting downloaded git install" );
@@ -256,7 +256,7 @@ public class Builder
     private static void loadPlugin(Plugin plugin, File dir) {
 
         try {
-            File file = download(plugin.getFileUrl(), new File(dir, plugin.getFileName()));
+            File file = download(plugin.getFileUrl(), new File(dir, plugin.getFileName()), plugin.isUseToken());
             PluginDescriptionFile pluginDescription = getPluginDescription(file);
 
             File dataFolder = new File(dir, pluginDescription.getName());
@@ -300,7 +300,7 @@ public class Builder
     private static void downloadPluginConfigs(Plugin plugin, File dataFolder) {
         try {
             File configZip = new File("tmp", plugin.getFileName() + ".zip");
-            File download = download(plugin.getConfigUrl(), configZip);
+            File download = download(plugin.getConfigUrl(), configZip, plugin.isUseToken());
             unzip(download, dataFolder);
         } catch (IOException e) {
             System.err.println("Failed to download configs for " + plugin.getName() + " from: " + plugin.getConfigUrl() + ": " + e.getMessage());
@@ -547,13 +547,13 @@ public class Builder
 
     private static final int BUFFER_SIZE = 4096;
 
-    public static File download(String url, File target) throws IOException
+    public static File download(String url, File target, boolean addHeader) throws IOException
     {
         System.out.println( "Starting download of " + url );
 
         URL uri = new URL(url);
         HttpURLConnection httpConn = (HttpURLConnection) uri.openConnection();
-        Builder.headers.forEach(httpConn::setRequestProperty);
+        if (addHeader) Builder.headers.forEach(httpConn::setRequestProperty);
 
         int responseCode = httpConn.getResponseCode();
 
