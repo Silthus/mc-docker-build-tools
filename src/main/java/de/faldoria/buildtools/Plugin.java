@@ -8,8 +8,8 @@ import java.net.URI;
 public class Plugin {
 
     private String name;
-    private String fileName;
-    private String fileUrl;
+    private String file;
+    private String url;
     private String configUrl;
     private String branch;
     private boolean useToken = false;

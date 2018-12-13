@@ -52,10 +52,8 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.DirectoryStream;
-import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -66,7 +64,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -256,7 +253,7 @@ public class Builder
     private static void loadPlugin(Plugin plugin, File dir) {
 
         try {
-            File file = download(plugin.getFileUrl(), new File(dir, plugin.getFileName()), plugin.isUseToken());
+            File file = download(plugin.getUrl(), new File(dir, plugin.getFile()), plugin.isUseToken());
             PluginDescriptionFile pluginDescription = getPluginDescription(file);
 
             File dataFolder = new File(dir, pluginDescription.getName());
@@ -287,10 +284,10 @@ public class Builder
                 }
             }
         } catch (IOException e) {
-            System.err.println("Failed to download " + plugin.getFileName() + " from " + plugin.getFileUrl() + ": " + e.getMessage());
+            System.err.println("Failed to download " + plugin.getFile() + " from " + plugin.getUrl() + ": " + e.getMessage());
         } catch (InvalidDescriptionException e) {
             System.err.println("Invalid plugin: " + e.getMessage());
-            File file = new File(dir, plugin.getFileName());
+            File file = new File(dir, plugin.getFile());
             if (file.exists()) file.delete();
         } catch (GitAPIException e) {
             e.printStackTrace();
@@ -299,7 +296,7 @@ public class Builder
 
     private static void downloadPluginConfigs(Plugin plugin, File dataFolder) {
         try {
-            File configZip = new File("tmp", plugin.getFileName() + ".zip");
+            File configZip = new File("tmp", plugin.getFile() + ".zip");
             File download = download(plugin.getConfigUrl(), configZip, plugin.isUseToken());
             unzip(download, dataFolder);
         } catch (IOException e) {
@@ -550,6 +547,8 @@ public class Builder
     public static File download(String url, File target, boolean addHeader) throws IOException
     {
         System.out.println( "Starting download of " + url );
+
+        target.mkdirs();
 
         URL uri = new URL(url);
         HttpURLConnection httpConn = (HttpURLConnection) uri.openConnection();

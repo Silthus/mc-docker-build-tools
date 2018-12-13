@@ -42,19 +42,19 @@ In the config all plugins and their configs are specified by a download url and 
 # Just non-working examples
 plugins:
   worldedit:
-    fileName: WorldEdit.jar
-    fileUrl: https://dev.bukkit.org/projects/worldedit/files/latest
+    file: WorldEdit.jar
+    url: https://dev.bukkit.org/projects/worldedit/files/latest
     configType: ZIP
     configUrl: https://pub.faldoria.de/plugin-configs/worldedit.zip
   raidcraft-api:
-    fileName: RaidCraft-API.jar
-    fileUrl: https://git.faldoria.de/raidcraft/raidcraft-api/-/jobs/artifacts/master/raw/target/RaidCraft-API.jar?job=build
+    file: RaidCraft-API.jar
+    url: https://git.faldoria.de/raidcraft/raidcraft-api/-/jobs/artifacts/master/raw/target/RaidCraft-API.jar?job=build
     configType: GIT
     branch: master
     configUrl: https://git.faldoria.de/plugin-configs/rcmobs.git
   custom-path-jar:
     # You can download the plugin into any sub directory you want
-    fileName: RaidCraft-API/custom-plugin.jar
-    fileUrl: https://foobar.faldoria.de/plugin.jar
+    file: RaidCraft-API/custom-plugin.jar
+    url: https://foobar.faldoria.de/plugin.jar
     # The config paramters are optional
 ```
