@@ -548,7 +548,10 @@ public class Builder
     {
         System.out.println( "Starting download of " + url );
 
-        target.mkdirs();
+        File parentFile = target.getParentFile();
+        if (!parentFile.exists()) {
+            parentFile.mkdirs();
+        }
 
         URL uri = new URL(url);
         HttpURLConnection httpConn = (HttpURLConnection) uri.openConnection();
