@@ -256,7 +256,7 @@ public class Builder
         try {
             File file = download(plugin.getUrl(), new File(dir, plugin.getFile()), plugin.isUseToken());
             if (!file.exists()) {
-                System.err.print("Failed to download " + plugin.getUrl() + " as " + plugin.getFile());
+                System.err.println("Failed to download " + plugin.getUrl() + " as " + plugin.getFile());
                 return;
             }
             PluginDescriptionFile pluginDescription = getPluginDescription(file);
@@ -292,8 +292,6 @@ public class Builder
             System.err.println("Failed to download " + plugin.getFile() + " from " + plugin.getUrl() + ": " + e.getMessage());
         } catch (InvalidDescriptionException e) {
             System.err.println("Invalid plugin: " + e.getMessage());
-            File file = new File(dir, plugin.getFile());
-            if (file.exists()) file.delete();
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
@@ -582,8 +580,6 @@ public class Builder
             Files.createDirectories(file.getParent());
             Files.write(file, bytes);
             System.out.println( "Downloaded file: " + file + " with md5: " + Hashing.md5().hashBytes( bytes ).toString() );
-
-//            com.google.common.io.Files.write( bytes, target );
         } else {
             System.out.println("No file to download. Server replied HTTP code: " + responseCode);
         }
