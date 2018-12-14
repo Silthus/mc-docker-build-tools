@@ -54,6 +54,7 @@ import java.net.URLConnection;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -254,6 +255,10 @@ public class Builder
 
         try {
             File file = download(plugin.getUrl(), new File(dir, plugin.getFile()), plugin.isUseToken());
+            if (!file.exists()) {
+                System.err.print("Failed to download " + plugin.getUrl() + " as " + plugin.getFile());
+                return;
+            }
             PluginDescriptionFile pluginDescription = getPluginDescription(file);
 
             File dataFolder = new File(dir, pluginDescription.getName());
@@ -578,10 +583,10 @@ public class Builder
             outputStream.close();
             inputStream.close();
 
-
+            Files.write(target.toPath(), bytes);
             System.out.println( "Downloaded file: " + target + " with md5: " + Hashing.md5().hashBytes( bytes ).toString() );
 
-            com.google.common.io.Files.write( bytes, target );
+//            com.google.common.io.Files.write( bytes, target );
         } else {
             System.out.println("No file to download. Server replied HTTP code: " + responseCode);
         }
