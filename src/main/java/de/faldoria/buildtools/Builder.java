@@ -553,11 +553,6 @@ public class Builder
     {
         System.out.println( "Starting download of " + url );
 
-        File parentFile = target.getParentFile();
-        if (!parentFile.exists()) {
-            parentFile.mkdirs();
-        }
-
         URL uri = new URL(url);
         HttpURLConnection httpConn = (HttpURLConnection) uri.openConnection();
         if (addHeader) Builder.headers.forEach(httpConn::setRequestProperty);
@@ -583,8 +578,10 @@ public class Builder
             outputStream.close();
             inputStream.close();
 
-            Files.write(target.toPath(), bytes);
-            System.out.println( "Downloaded file: " + target + " with md5: " + Hashing.md5().hashBytes( bytes ).toString() );
+            Path file = target.toPath().toAbsolutePath();
+            Files.createDirectories(file.getParent());
+            Files.write(file, bytes);
+            System.out.println( "Downloaded file: " + file + " with md5: " + Hashing.md5().hashBytes( bytes ).toString() );
 
 //            com.google.common.io.Files.write( bytes, target );
         } else {
