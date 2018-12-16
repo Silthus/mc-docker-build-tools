@@ -4,7 +4,7 @@
 
     <groupId>de.faldoria</groupId>
     <artifactId>buildtools</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>ToF-BuildTools</name>
@@ -12,7 +12,7 @@
 
     <scm>
         <developerConnection>scm:git:ssh://git@git.faldoria.de:/${CI_PROJECT_PATH}.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>buildtools-1.0.2</tag>
     </scm>
 
     <properties>
