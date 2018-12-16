@@ -54,6 +54,7 @@ import java.net.URLConnection;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -254,6 +255,10 @@ public class Builder
 
         try {
             File file = download(plugin.getUrl(), new File(dir, plugin.getFile()), plugin.isUseToken());
+            if (!file.exists()) {
+                System.err.println("Failed to download " + plugin.getUrl() + " as " + plugin.getFile());
+                return;
+            }
             PluginDescriptionFile pluginDescription = getPluginDescription(file);
 
             File dataFolder = new File(dir, pluginDescription.getName());
@@ -287,8 +292,6 @@ public class Builder
             System.err.println("Failed to download " + plugin.getFile() + " from " + plugin.getUrl() + ": " + e.getMessage());
         } catch (InvalidDescriptionException e) {
             System.err.println("Invalid plugin: " + e.getMessage());
-            File file = new File(dir, plugin.getFile());
-            if (file.exists()) file.delete();
         } catch (GitAPIException e) {
             e.printStackTrace();
         }
@@ -548,11 +551,6 @@ public class Builder
     {
         System.out.println( "Starting download of " + url );
 
-        File parentFile = target.getParentFile();
-        if (!parentFile.exists()) {
-            parentFile.mkdirs();
-        }
-
         URL uri = new URL(url);
         HttpURLConnection httpConn = (HttpURLConnection) uri.openConnection();
         if (addHeader) Builder.headers.forEach(httpConn::setRequestProperty);
@@ -578,10 +576,10 @@ public class Builder
             outputStream.close();
             inputStream.close();
 
-
-            System.out.println( "Downloaded file: " + target + " with md5: " + Hashing.md5().hashBytes( bytes ).toString() );
-
-            com.google.common.io.Files.write( bytes, target );
+            Path file = target.toPath().toAbsolutePath();
+            Files.createDirectories(file.getParent());
+            Files.write(file, bytes);
+            System.out.println( "Downloaded file: " + file + " with md5: " + Hashing.md5().hashBytes( bytes ).toString() );
         } else {
             System.out.println("No file to download. Server replied HTTP code: " + responseCode);
         }
