@@ -24,6 +24,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>faldoria-deps</id>
+            <url>http://repo.faldoria.de/artifactory/Faldoria/</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.custardsource.dybdob</groupId>
