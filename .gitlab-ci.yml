@@ -25,9 +25,19 @@ deploy:
     - mvn $MAVEN_CLI_OPTS deploy
   only:
     - master
+  artifacts:
+    name: BuildTools
+    paths:
+    - target/*.jar
+
+release-artifact:
+  stage: deploy
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
+  only:
     - tags
   artifacts:
-    name: Plugin
+    name: BuildTools
     paths:
     - target/*.jar
 
