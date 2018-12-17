@@ -54,7 +54,6 @@ import java.net.URLConnection;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -80,6 +79,7 @@ public class Builder
     private static File msysDir;
     private static CredentialsProvider credentialsProvider = null;
     private static Map<String, String> headers = new HashMap<>();
+    public static String API_KEY = null;
 
     public static void main(String[] args) throws Exception
     {
@@ -239,11 +239,14 @@ public class Builder
 
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
-            mapper.readValue(configFile, PluginsConfig.class)
+            PluginsConfig pluginsConfig = mapper.readValue(configFile, PluginsConfig.class);
+            API_KEY = pluginsConfig.getCurseApiKey();
+            pluginsConfig
                     .getPlugins()
                     .forEach((name, plugin) -> {
                         plugin.setName(name);
-                        loadPlugin(plugin, dir);
+                        plugin.load();
+                        downloadPlugin(plugin, dir);
                     });
         } catch (IOException e) {
             System.err.println("*** Failed to parse plugins.yml: " + e.getMessage() + " ***");
@@ -251,7 +254,7 @@ public class Builder
         }
     }
 
-    private static void loadPlugin(Plugin plugin, File dir) {
+    private static void downloadPlugin(Plugin plugin, File dir) {
 
         try {
             File file = download(plugin.getUrl(), new File(dir, plugin.getFile()), plugin.isUseToken());

@@ -4,10 +4,17 @@
   <groupId>de.faldoria</groupId>
   <artifactId>buildtools</artifactId>
   <name>ToF-BuildTools</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.1.0-SNAPSHOT</version>
+  <scm>
+    <developerConnection>scm:git:ssh://git@git.faldoria.de:/${CI_PROJECT_PATH}.git</developerConnection>
+  </scm>
   <build>
     <finalName>${project.name}</finalName>
     <plugins>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+      </plugin>
       <plugin>
         <groupId>net.md-5</groupId>
         <artifactId>scriptus</artifactId>
@@ -72,6 +79,12 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>faldoria-deps</id>
+      <url>http://repo.faldoria.de/artifactory/Faldoria/</url>
+    </repository>
+  </distributionManagement>
   <properties>
     <build.number>unknown</build.number>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

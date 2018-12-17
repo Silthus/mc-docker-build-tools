@@ -10,5 +10,6 @@ import java.util.Map;
 @Data
 public class PluginsConfig {
 
+    private String curseApiKey = null;
     private Map<String, Plugin> plugins = new HashMap<>();
 }
