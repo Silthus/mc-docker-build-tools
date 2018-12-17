@@ -45,13 +45,21 @@ In the config all plugins and their configs are specified by a download url and 
 > Plugin configs that are downloaded from git repositories will be updated using `git pull`. Remember to commit your changes before updating the configs.
 
 ```yml
-# Just non-working examples
+# You can provide your Curseforge BukkitDev API key from https://dev.bukkit.org/account/api-tokens to avoid 403 errors when downloading plugins from bukkit dev.
+curseApikey: <your-api-key>
 plugins:
   worldedit:
     file: WorldEdit.jar
     url: https://dev.bukkit.org/projects/worldedit/files/latest
+    # to avoid passing sensitive tokens to random sites you need to set the
+    # useToken to true when downloading from bukkit dev
+    useToken: true
     configType: ZIP
     configUrl: https://pub.faldoria.de/plugin-configs/worldedit.zip
+  # needs the api key to work properly
+  worldedit:
+     file: WorldEdit.jar
+     bukkitId: 31043
   raidcraft-api:
     file: RaidCraft-API.jar
     url: https://git.faldoria.de/raidcraft/raidcraft-api/-/jobs/artifacts/master/raw/target/RaidCraft-API.jar?job=build

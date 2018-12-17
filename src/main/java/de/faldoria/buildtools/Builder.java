@@ -557,6 +557,7 @@ public class Builder
         URL uri = new URL(url);
         HttpURLConnection httpConn = (HttpURLConnection) uri.openConnection();
         if (addHeader) Builder.headers.forEach(httpConn::setRequestProperty);
+        if (API_KEY != null && addHeader) httpConn.setRequestProperty("X-Api-Token", API_KEY);
 
         int responseCode = httpConn.getResponseCode();
 
