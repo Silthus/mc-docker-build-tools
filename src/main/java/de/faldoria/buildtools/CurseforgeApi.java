@@ -80,7 +80,7 @@ public class CurseforgeApi {
 
             if (apiKey != null) {
                 // Add the API key to the request if present
-                conn.addRequestProperty("X-API-Key", apiKey);
+                conn.addRequestProperty("X-Api-Token", apiKey);
             }
 
             // Add the user-agent to identify the program
@@ -102,7 +102,7 @@ public class CurseforgeApi {
                 String versionName = (String) latest.get(API_NAME_VALUE);
 
                 // Get the version's link
-                String versionLink = (String) latest.get(API_LINK_VALUE);
+                String versionLink = ((String) latest.get(API_LINK_VALUE)).replaceFirst("http://", "https://");
 
                 // Get the version's release type
                 String versionType = (String) latest.get(API_RELEASE_TYPE_VALUE);
